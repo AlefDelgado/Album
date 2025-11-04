@@ -35,10 +35,8 @@ Ideal para practicar **desarrollo web**, **bases de datos** y **control de estad
 
 | Tipo | Herramientas |
 |------|---------------|
-| 💻 Frontend | HTML, CSS, JavaScript |
-| ⚙️ Backend | Node.js / Express *(o la que uses)* |
-| 🗃️ Base de datos | MongoDB / SQLite / JSON |
-| 🎨 Diseño | Figma / Canva / CSS puro |
+| 💻 App | Java |
+| 🎨 Diseño | Canva |
 | 🧩 Control de versiones | Git y GitHub |
 
 > Puedes ajustar esta tabla según tus herramientas reales.
