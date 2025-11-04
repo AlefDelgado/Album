@@ -1,4 +1,4 @@
-# 🏆 Álbum de Fútbol Panini Digital
+# 🏆 Álbum de Fútbol 
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/tu-usuario/album-futbol)
 ![GitHub last commit](https://img.shields.io/github/last-commit/tu-usuario/album-futbol)
