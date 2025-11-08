@@ -1,13 +1,10 @@
-package album;
+package MAIN;
+import GUI.GUI;
 import java.awt.Color;
 import javax.swing.JFrame;
 
-/*
- *
- * @author alefdelgado
- */
 
-public class Album {
+public class Main {
 
     public static void main(String[] args) {
         GUI ventana = new GUI();
@@ -19,3 +16,4 @@ public class Album {
     }
     
 }
+ 
