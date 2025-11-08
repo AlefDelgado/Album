@@ -22,20 +22,19 @@ public class GUI extends JFrame
 {
     private JLabel titulo;
     private JPanel panel;
+    private JMenu menuArchivo;
     
     
     public GUI() {
         super("Log in");
         
-        
-        
         Componentes();
+        menuBar();
         
-        JMenu menuArchivo = new JMenu("This App");
+        menuArchivo = new JMenu("This App");
         menuArchivo.setMnemonic('A'); 
+       
         
-        panel.revalidate();
-        panel.repaint();
         JMenuItem aboutThis = new JMenuItem("About");
         aboutThis.setMnemonic('c');
         menuArchivo.add(aboutThis); 
@@ -44,7 +43,8 @@ public class GUI extends JFrame
         {
 
             
-            public void actionPerformed(ActionEvent evento) {
+            public void actionPerformed(ActionEvent evento) 
+            {
                 JOptionPane.showMessageDialog(GUI.this,"                       Album Futbol\n                       UAEMex 2025\nCentro Universitario UAEMex Tianguistenco","Acerca de", JOptionPane.PLAIN_MESSAGE);
             } 
         } 
@@ -58,19 +58,17 @@ public class GUI extends JFrame
         {
             
             
-            public void actionPerformed(ActionEvent evento) {
+            public void actionPerformed(ActionEvent evento) 
+            {
                 System.exit(0); 
             } 
         }
         );
-        
-        JMenuBar barra = new JMenuBar();
-        setJMenuBar(barra);
-        barra.add(menuArchivo);
-        
+        menuBar();
     }
     
-    public void Componentes() {
+    public void Componentes() 
+    {
         
         // Panel principal
         panel = new JPanel();
@@ -83,6 +81,14 @@ public class GUI extends JFrame
         titulo.setFont(new Font("Arial", Font.BOLD, 20));
         titulo.setForeground(Color.white);
         panel.add(titulo, BorderLayout.NORTH);
+    }
+    
+    public void menuBar()
+    {
+        JMenuBar barra = new JMenuBar();
+        setJMenuBar(barra);
+        barra.add(menuArchivo);
+        
     }
     
 }
