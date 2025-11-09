@@ -1,0 +1,15 @@
+Barcelona|Joan García|Portero|1|España|23|Primera División|||Jugador
+Barcelona|Jules Koundé|Defensa central|2|Francia|26|Primera División|||Jugador
+Barcelona|Ronald Araújo|Defensa central|3|Uruguay|26|Primera División|||Jugador
+Barcelona|Pedri González|Mediocampista ofensivo|7|España|22|Primera División|||Jugador
+Barcelona|Lamine Yamal|Extremo derecho|9|España|17|Primera División|||Jugador
+Barcelona|Robert Lewandowski|Delantero centro|10|Polonia|37|Primera División|||Jugador
+Barcelona|Hansi Flick|Director Técnico|--|Alemania|59|Primera División|||Director Técnico
+Manchester City|Gianluigi Donnarumma|Portero|1|Italia|26|Premier League|||Jugador
+Manchester City|Rúben Díaz|Defensa central|3|Portugal|28|Premier League|||Jugador
+Manchester City|Erling Haaland|Delantero centro|10|Noruega|25|Premier League|||Jugador
+Manchester City|Pep Guardiola|Director Técnico|--|España|54|Premier League|||Director Técnico
+Barcelona Femenino|Cata Coll|Portera|1|España|24|Liga F|||Jugador
+Barcelona Femenino|Aitana Bonmatí|Mediocampista ofensiva|6|España|27|Liga F|||Jugador
+Barcelona Femenino|Alexia Putellas|Mediocampista ofensiva|10|España|31|Liga F|||Jugador
+Barcelona Femenino|Pere Romeu|Director Técnico|--|España|40|Liga F|||Director Técnico
