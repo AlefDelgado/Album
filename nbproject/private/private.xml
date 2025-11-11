@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/alber/OneDrive/Documentos/NetBeansProjects/Album/src/MAIN/Main.java</file>
+            <file>file:/C:/Users/alber/OneDrive/Documentos/NetBeansProjects/Album/src/ARCHIVOS/ManejadorArchivos.java</file>
+            <file>file:/C:/Users/alber/OneDrive/Documentos/NetBeansProjects/Album/src/CONTROL/Jugador.java</file>
+            <file>file:/C:/Users/alber/OneDrive/Documentos/NetBeansProjects/Album/src/GUI/AdminPanel.java</file>
+            <file>file:/C:/Users/alber/OneDrive/Documentos/NetBeansProjects/Album/src/GUI/AlbumPanel.java</file>
+        </group>
     </open-files>
 </project-private>
