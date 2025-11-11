@@ -17,42 +17,66 @@ public class AlbumPanel extends JPanel {
         this.ventana = ventana;
         this.gestor = new GestorAlbum();
         setLayout(new BorderLayout());
-        setBackground(new Color(240, 240, 240));
+        setBackground(GUI.GRIS_CLARO);
         
-        JPanel panelSuperior = new JPanel(new BorderLayout());
-        panelSuperior.setBackground(Color.WHITE);
-        
-        JPanel panelFiltro = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panelFiltro.setBackground(Color.WHITE);
-        panelFiltro.add(new JLabel("Filtrar por equipo:"));
-        
-        cbEquipos = new JComboBox<>();
-        cbEquipos.addItem("Todos los equipos");
-        for (String equipo : gestor.obtenerEquipos()) {
-            cbEquipos.addItem(equipo);
-        }
-        cbEquipos.addActionListener(e -> actualizarEstampas());
-        panelFiltro.add(cbEquipos);
-        
-        JButton btnCerrarSesion = new JButton("Cerrar Sesión");
-        btnCerrarSesion.addActionListener(e -> ventana.mostrar("login"));
-        
-        panelSuperior.add(panelFiltro, BorderLayout.WEST);
-        panelSuperior.add(btnCerrarSesion, BorderLayout.EAST);
-        
+        // Panel superior con filtros
+        JPanel panelSuperior = crearPanelSuperior();
         add(panelSuperior, BorderLayout.NORTH);
         
+        // Panel de estampas con scroll
         panelEstampas = new JPanel();
-        panelEstampas.setLayout(new GridLayout(0, 3, 15, 15));
-        panelEstampas.setBackground(new Color(240, 240, 240));
+        panelEstampas.setLayout(new GridLayout(0, 3, 20, 20));
+        panelEstampas.setBackground(GUI.GRIS_CLARO);
+        panelEstampas.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
         JScrollPane scroll = new JScrollPane(panelEstampas);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.getVerticalScrollBar().setUnitIncrement(16);
+        scroll.setBorder(null);
         
         add(scroll, BorderLayout.CENTER);
         
         actualizarEstampas();
+    }
+    
+    private JPanel crearPanelSuperior() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(0, 0, 2, 0, GUI.AZUL_CLARO),
+            BorderFactory.createEmptyBorder(15, 20, 15, 20)
+        ));
+        
+        // Panel de filtros a la izquierda
+        JPanel panelFiltro = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+        panelFiltro.setBackground(Color.WHITE);
+        
+        JLabel lblFiltro = new JLabel("🔍 Filtrar:");
+        lblFiltro.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblFiltro.setForeground(GUI.GRIS_TEXTO);
+        
+        cbEquipos = new JComboBox<>();
+        cbEquipos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        cbEquipos.setPreferredSize(new Dimension(250, 35));
+        cbEquipos.setBackground(Color.WHITE);
+        cbEquipos.addItem("📋 Todos los equipos");
+        
+        for (String equipo : gestor.obtenerEquipos()) {
+            cbEquipos.addItem("⚽ " + equipo);
+        }
+        cbEquipos.addActionListener(e -> actualizarEstampas());
+        
+        panelFiltro.add(lblFiltro);
+        panelFiltro.add(cbEquipos);
+        
+        // Botón cerrar sesión a la derecha
+        JButton btnCerrarSesion = GUI.crearBotonSecundario("🚪 Cerrar Sesión");
+        btnCerrarSesion.addActionListener(e -> ventana.mostrar("login"));
+        
+        panel.add(panelFiltro, BorderLayout.WEST);
+        panel.add(btnCerrarSesion, BorderLayout.EAST);
+        
+        return panel;
     }
     
     private void actualizarEstampas() {
@@ -61,10 +85,12 @@ public class AlbumPanel extends JPanel {
         String equipoSeleccionado = (String) cbEquipos.getSelectedItem();
         ArrayList<Jugador> jugadores;
         
-        if ("Todos los equipos".equals(equipoSeleccionado)) {
+        if (equipoSeleccionado == null || equipoSeleccionado.startsWith("📋")) {
             jugadores = gestor.obtenerTodosJugadores();
         } else {
-            jugadores = gestor.obtenerJugadoresPorEquipo(equipoSeleccionado);
+            // Remover el emoji "⚽ " del nombre del equipo
+            String equipoLimpio = equipoSeleccionado.substring(2);
+            jugadores = gestor.obtenerJugadoresPorEquipo(equipoLimpio);
         }
         
         for (Jugador j : jugadores) {
@@ -72,13 +98,34 @@ public class AlbumPanel extends JPanel {
         }
         
         if (jugadores.isEmpty()) {
-            JLabel lblVacio = new JLabel("No hay jugadores registrados", SwingConstants.CENTER);
-            lblVacio.setFont(new Font("Arial", Font.ITALIC, 16));
-            panelEstampas.add(lblVacio);
+            JPanel panelVacio = crearPanelVacio();
+            panelEstampas.add(panelVacio);
         }
         
         panelEstampas.revalidate();
         panelEstampas.repaint();
+    }
+    
+    private JPanel crearPanelVacio() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+        
+        JLabel lblIcono = new JLabel("📭", SwingConstants.CENTER);
+        lblIcono.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 60));
+        lblIcono.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JLabel lblMensaje = new JLabel("No hay jugadores registrados", SwingConstants.CENTER);
+        lblMensaje.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblMensaje.setForeground(GUI.GRIS_TEXTO);
+        lblMensaje.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        panel.add(lblIcono);
+        panel.add(Box.createRigidArea(new Dimension(0, 15)));
+        panel.add(lblMensaje);
+        
+        return panel;
     }
     
     private JPanel crearEstampa(Jugador j) {
@@ -86,74 +133,99 @@ public class AlbumPanel extends JPanel {
         estampa.setLayout(new BoxLayout(estampa, BoxLayout.Y_AXIS));
         estampa.setBackground(Color.WHITE);
         estampa.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200), 2),
-            BorderFactory.createEmptyBorder(10, 10, 10, 10)
+            BorderFactory.createLineBorder(new Color(220, 220, 220), 1),
+            BorderFactory.createEmptyBorder(15, 15, 15, 15)
         ));
-        estampa.setPreferredSize(new Dimension(220, 380));
-        estampa.setMaximumSize(new Dimension(220, 380));
+        estampa.setPreferredSize(new Dimension(240, 420));
+        estampa.setMaximumSize(new Dimension(240, 420));
+        estampa.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        JLabel lblEquipo = new JLabel(j.getNombreEquipo(), SwingConstants.CENTER);
-        lblEquipo.setFont(new Font("Arial", Font.BOLD, 12));
-        lblEquipo.setForeground(new Color(0, 102, 204));
-        lblEquipo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Header con equipo y escudo
+        JPanel headerEstampa = new JPanel(new BorderLayout(5, 0));
+        headerEstampa.setBackground(GUI.AZUL_MUY_CLARO);
+        headerEstampa.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
+        headerEstampa.setMaximumSize(new Dimension(240, 50));
         
-        // CARGAR IMAGEN DEL JUGADOR
-        JLabel lblImagen = cargarImagen(j.getRutaImagen(), 140, 140);
-        lblImagen.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        // CARGAR ESCUDO (pequeño)
         JLabel lblEscudo = cargarImagen(j.getRutaEscudo(), 30, 30);
-        lblEscudo.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        JLabel lblNombre = new JLabel(j.getNombreJugador(), SwingConstants.CENTER);
-        lblNombre.setFont(new Font("Arial", Font.BOLD, 14));
-        lblNombre.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel lblEquipo = new JLabel(j.getNombreEquipo());
+        lblEquipo.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        lblEquipo.setForeground(GUI.AZUL_PRINCIPAL);
         
-        JLabel lblNumero = new JLabel("#" + j.getNumero(), SwingConstants.CENTER);
-        lblNumero.setFont(new Font("Arial", Font.BOLD, 20));
-        lblNumero.setForeground(new Color(220, 53, 69));
+        headerEstampa.add(lblEscudo, BorderLayout.WEST);
+        headerEstampa.add(lblEquipo, BorderLayout.CENTER);
+        
+        // Imagen del jugador
+        JLabel lblImagen = cargarImagen(j.getRutaImagen(), 160, 160);
+        lblImagen.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblImagen.setBorder(BorderFactory.createLineBorder(GUI.AZUL_CLARO, 2));
+        
+        // Número destacado
+        JLabel lblNumero = new JLabel("#" + j.getNumero());
+        lblNumero.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        lblNumero.setForeground(GUI.AZUL_SECUNDARIO);
         lblNumero.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        JLabel lblPosicion = new JLabel(j.getPosicion(), SwingConstants.CENTER);
-        lblPosicion.setFont(new Font("Arial", Font.PLAIN, 11));
+        // Nombre del jugador
+        JLabel lblNombre = new JLabel("<html><center>" + j.getNombreJugador() + "</center></html>");
+        lblNombre.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblNombre.setForeground(GUI.GRIS_TEXTO);
+        lblNombre.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        // Posición
+        JLabel lblPosicion = new JLabel(j.getPosicion());
+        lblPosicion.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        lblPosicion.setForeground(new Color(100, 100, 100));
         lblPosicion.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        JLabel lblNacionalidad = new JLabel("🌍 " + j.getNacionalidad(), SwingConstants.CENTER);
-        lblNacionalidad.setFont(new Font("Arial", Font.PLAIN, 10));
-        lblNacionalidad.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Info adicional (nacionalidad y edad)
+        JPanel panelInfo = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        panelInfo.setBackground(Color.WHITE);
+        panelInfo.setMaximumSize(new Dimension(240, 30));
         
-        JLabel lblEdad = new JLabel(j.getEdad() + " años", SwingConstants.CENTER);
-        lblEdad.setFont(new Font("Arial", Font.PLAIN, 10));
-        lblEdad.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel lblNacionalidad = new JLabel("🌍 " + j.getNacionalidad());
+        lblNacionalidad.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+        lblNacionalidad.setForeground(new Color(120, 120, 120));
         
-        estampa.add(lblEquipo);
-        estampa.add(Box.createRigidArea(new Dimension(0, 3)));
-        estampa.add(lblEscudo);
-        estampa.add(Box.createRigidArea(new Dimension(0, 5)));
+        JLabel lblEdad = new JLabel("📅 " + j.getEdad() + " años");
+        lblEdad.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+        lblEdad.setForeground(new Color(120, 120, 120));
+        
+        panelInfo.add(lblNacionalidad);
+        panelInfo.add(new JLabel("|"));
+        panelInfo.add(lblEdad);
+        
+        // Ensamblar estampa
+        estampa.add(headerEstampa);
+        estampa.add(Box.createRigidArea(new Dimension(0, 10)));
         estampa.add(lblImagen);
-        estampa.add(Box.createRigidArea(new Dimension(0, 8)));
-        estampa.add(lblNombre);
+        estampa.add(Box.createRigidArea(new Dimension(0, 10)));
         estampa.add(lblNumero);
-        estampa.add(lblPosicion);
         estampa.add(Box.createRigidArea(new Dimension(0, 5)));
-        estampa.add(lblNacionalidad);
-        estampa.add(lblEdad);
+        estampa.add(lblNombre);
+        estampa.add(Box.createRigidArea(new Dimension(0, 3)));
+        estampa.add(lblPosicion);
+        estampa.add(Box.createRigidArea(new Dimension(0, 8)));
+        estampa.add(panelInfo);
         
+        // Efectos hover y click
         estampa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                estampa.setBackground(new Color(245, 245, 245));
+                estampa.setBackground(GUI.AZUL_MUY_CLARO);
                 estampa.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(new Color(0, 102, 204), 2),
-                    BorderFactory.createEmptyBorder(10, 10, 10, 10)
+                    BorderFactory.createLineBorder(GUI.AZUL_SECUNDARIO, 2),
+                    BorderFactory.createEmptyBorder(15, 15, 15, 15)
                 ));
             }
+            
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 estampa.setBackground(Color.WHITE);
                 estampa.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(new Color(200, 200, 200), 2),
-                    BorderFactory.createEmptyBorder(10, 10, 10, 10)
+                    BorderFactory.createLineBorder(new Color(220, 220, 220), 1),
+                    BorderFactory.createEmptyBorder(15, 15, 15, 15)
                 ));
             }
+            
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mostrarDetalleJugador(j);
             }
@@ -162,7 +234,6 @@ public class AlbumPanel extends JPanel {
         return estampa;
     }
     
-    // MÉTODO PARA CARGAR IMÁGENES
     private JLabel cargarImagen(String ruta, int ancho, int alto) {
         JLabel label = new JLabel();
         label.setPreferredSize(new Dimension(ancho, alto));
@@ -179,49 +250,52 @@ public class AlbumPanel extends JPanel {
                 Image imgEscalada = img.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
                 label.setIcon(new ImageIcon(imgEscalada));
             } else {
-                // Si no existe la imagen, mostrar placeholder
+                // Placeholder moderno
                 label.setOpaque(true);
-                label.setBackground(new Color(230, 230, 230));
-                label.setText("Sin imagen");
-                label.setFont(new Font("Arial", Font.ITALIC, 10));
-                label.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+                label.setBackground(GUI.GRIS_CLARO);
+                label.setText("📷");
+                label.setFont(new Font("Segoe UI Emoji", Font.PLAIN, ancho/3));
+                label.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
             }
         } catch (Exception e) {
-            // Error al cargar, mostrar placeholder
             label.setOpaque(true);
-            label.setBackground(new Color(230, 230, 230));
-            label.setText("Error");
-            label.setFont(new Font("Arial", Font.ITALIC, 10));
-            label.setBorder(BorderFactory.createLineBorder(Color.RED));
+            label.setBackground(new Color(255, 220, 220));
+            label.setText("❌");
+            label.setFont(new Font("Segoe UI Emoji", Font.PLAIN, ancho/4));
+            label.setBorder(BorderFactory.createLineBorder(GUI.ROJO_PELIGRO));
         }
         
         return label;
     }
     
     private void mostrarDetalleJugador(Jugador j) {
-        String mensaje = String.format(
-            "EQUIPO: %s\n\n" +
-            "NOMBRE: %s\n" +
-            "POSICIÓN: %s\n" +
-            "NÚMERO: %s\n" +
-            "NACIONALIDAD: %s\n" +
-            "EDAD: %d años\n" +
-            "DIVISIÓN: %s\n" +
-            "TIPO: %s",
-            j.getNombreEquipo(),
-            j.getNombreJugador(),
-            j.getPosicion(),
-            j.getNumero(),
-            j.getNacionalidad(),
-            j.getEdad(),
-            j.getDivision(),
-            j.getTipo()
-        );
+        JPanel panelDetalle = new JPanel();
+        panelDetalle.setLayout(new BoxLayout(panelDetalle, BoxLayout.Y_AXIS));
+        panelDetalle.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
+        
+        String[] datos = {
+            "⚽ EQUIPO: " + j.getNombreEquipo(),
+            "👤 NOMBRE: " + j.getNombreJugador(),
+            "🎯 POSICIÓN: " + j.getPosicion(),
+            "🔢 NÚMERO: " + j.getNumero(),
+            "🌍 NACIONALIDAD: " + j.getNacionalidad(),
+            "📅 EDAD: " + j.getEdad() + " años",
+            "🏆 DIVISIÓN: " + j.getDivision(),
+            "👔 TIPO: " + j.getTipo()
+        };
+        
+        for (String dato : datos) {
+            JLabel lbl = new JLabel(dato);
+            lbl.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+            lbl.setAlignmentX(Component.LEFT_ALIGNMENT);
+            panelDetalle.add(lbl);
+            panelDetalle.add(Box.createRigidArea(new Dimension(0, 8)));
+        }
         
         JOptionPane.showMessageDialog(
             this,
-            mensaje,
-            "Detalle de " + j.getNombreJugador(),
+            panelDetalle,
+            "📋 Detalle de " + j.getNombreJugador(),
             JOptionPane.INFORMATION_MESSAGE
         );
     }

@@ -50,7 +50,7 @@ public class AdminPanel extends JPanel {
         JTextField txtDivision = new JTextField(20);
         JComboBox<String> cbTipo = new JComboBox<>(new String[]{"Jugador", "Director Técnico"});
         
-        // NUEVOS: Campos para imágenes
+        // Campos para imágenes
         JLabel lblImagenSeleccionada = new JLabel("No seleccionada");
         JLabel lblEscudoSeleccionado = new JLabel("No seleccionado");
         JButton btnSeleccionarImagen = new JButton("Seleccionar Imagen Jugador");

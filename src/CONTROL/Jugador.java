@@ -1,5 +1,7 @@
 package CONTROL;
 
+import java.text.Normalizer;
+
 public class Jugador {
     private String nombreEquipo;
     private String nombreJugador;
@@ -15,6 +17,8 @@ public class Jugador {
     public Jugador() {
         this.numero = "";
         this.tipo = "Jugador";
+        this.rutaImagen = "";
+        this.rutaEscudo = "";
     }
     
     public Jugador(String nombreEquipo, String nombreJugador, String posicion, 
@@ -56,41 +60,73 @@ public class Jugador {
     public void setRutaEscudo(String rutaEscudo) { this.rutaEscudo = rutaEscudo; }
     public void setTipo(String tipo) { this.tipo = tipo; }
     
-    // NUEVO: Método para generar ruta automática de imagen
+    /**
+     * Normaliza un texto removiendo acentos y caracteres especiales
+     */
+    private String normalizarTexto(String texto) {
+        // Remover acentos usando NFD (Normalization Form Canonical Decomposition)
+        String normalizado = Normalizer.normalize(texto, Normalizer.Form.NFD);
+        // Remover los caracteres diacríticos (acentos)
+        normalizado = normalizado.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        // Convertir a minúsculas y reemplazar espacios por guiones bajos
+        normalizado = normalizado.toLowerCase().replace(" ", "_");
+        return normalizado;
+    }
+    
+    /**
+     * Genera automáticamente la ruta de la imagen del jugador
+     * Formato: imagenes/jugadores/{equipo_normalizado}_{numero}.jpg
+     * Ejemplo: imagenes/jugadores/barcelona_10.jpg
+     */
     public String generarRutaImagenAuto() {
-        String equipoNormalizado = nombreEquipo.toLowerCase()
-            .replace(" ", "_")
-            .replace("á", "a").replace("é", "e").replace("í", "i")
-            .replace("ó", "o").replace("ú", "u");
-        
+        String equipoNormalizado = normalizarTexto(nombreEquipo);
         String numeroNormalizado = tipo.equals("Director Técnico") ? "dt" : numero;
-        
         return "imagenes/jugadores/" + equipoNormalizado + "_" + numeroNormalizado + ".jpg";
     }
     
-    // NUEVO: Método para generar ruta automática de escudo
+    /**
+     * Genera automáticamente la ruta del escudo del equipo
+     * Formato: imagenes/escudos/{equipo_normalizado}.png
+     * Ejemplo: imagenes/escudos/barcelona.png
+     */
     public String generarRutaEscudoAuto() {
-        String equipoNormalizado = nombreEquipo.toLowerCase()
-            .replace(" ", "_")
-            .replace("á", "a").replace("é", "e").replace("í", "i")
-            .replace("ó", "o").replace("ú", "u");
-        
+        String equipoNormalizado = normalizarTexto(nombreEquipo);
         return "imagenes/escudos/" + equipoNormalizado + ".png";
     }
     
+    /**
+     * Convierte el jugador a formato String para guardar en archivo
+     * Formato: equipo|nombre|posicion|numero|nacionalidad|edad|division|rutaImagen|rutaEscudo|tipo
+     */
     public String toFileString() {
         return nombreEquipo + "|" + nombreJugador + "|" + posicion + "|" + 
                numero + "|" + nacionalidad + "|" + edad + "|" + division + "|" +
                rutaImagen + "|" + rutaEscudo + "|" + tipo;
     }
     
+    /**
+     * Crea un objeto Jugador desde una línea de texto del archivo
+     */
     public static Jugador fromFileString(String linea) {
-        String[] datos = linea.split("\\|");
-        if (datos.length == 10) {
-            return new Jugador(
-                datos[0], datos[1], datos[2], datos[3], datos[4],
-                Integer.parseInt(datos[5]), datos[6], datos[7], datos[8], datos[9]
-            );
+        try {
+            String[] datos = linea.split("\\|", -1); // -1 para incluir campos vacíos
+            if (datos.length == 10) {
+                return new Jugador(
+                    datos[0], // nombreEquipo
+                    datos[1], // nombreJugador
+                    datos[2], // posicion
+                    datos[3], // numero
+                    datos[4], // nacionalidad
+                    Integer.parseInt(datos[5]), // edad
+                    datos[6], // division
+                    datos[7], // rutaImagen
+                    datos[8], // rutaEscudo
+                    datos[9]  // tipo
+                );
+            }
+        } catch (Exception e) {
+            System.err.println("❌ Error al parsear línea: " + linea);
+            System.err.println("   Detalle: " + e.getMessage());
         }
         return null;
     }
