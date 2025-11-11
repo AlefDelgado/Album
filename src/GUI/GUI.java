@@ -8,7 +8,7 @@ public class GUI extends JFrame {
     private JPanel contenedor;
     private CardLayout cards;
     
-    // 🎨 PALETA DE COLORES MODERNA (Azul profesional)
+    // PALETA DE COLORES MODERNA
     public static final Color AZUL_PRINCIPAL = new Color(13, 71, 161);     // Azul oscuro
     public static final Color AZUL_SECUNDARIO = new Color(25, 118, 210);   // Azul medio
     public static final Color AZUL_CLARO = new Color(66, 165, 245);        // Azul claro
@@ -117,7 +117,7 @@ public class GUI extends JFrame {
         header.setPreferredSize(new Dimension(0, 80));
         
         // Título con icono
-        titulo = new JLabel("🔐 Iniciar Sesión", SwingConstants.CENTER);
+        titulo = new JLabel("Iniciar Sesión", SwingConstants.CENTER);
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 28));
         titulo.setForeground(Color.WHITE);
         titulo.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
@@ -132,7 +132,7 @@ public class GUI extends JFrame {
         footer.setBackground(AZUL_PRINCIPAL);
         footer.setBorder(BorderFactory.createEmptyBorder(8, 0, 8, 0));
         
-        JLabel lblFooter = new JLabel("© 2025 UAEMex - Sistema de Album Digital");
+        JLabel lblFooter = new JLabel("2025 UAEMex - Sistema de Album Digital");
         lblFooter.setForeground(Color.WHITE);
         lblFooter.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         
@@ -147,7 +147,7 @@ public class GUI extends JFrame {
         // Cambiar título según la vista
         switch (nombrePanel) {
             case "login":
-                titulo.setText("🔐 Iniciar Sesion");
+                titulo.setText("Iniciar Sesion");
                 break;
             case "admin":
                 titulo.setText("Panel Administrador");
