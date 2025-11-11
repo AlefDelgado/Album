@@ -56,6 +56,28 @@ public class Jugador {
     public void setRutaEscudo(String rutaEscudo) { this.rutaEscudo = rutaEscudo; }
     public void setTipo(String tipo) { this.tipo = tipo; }
     
+    // NUEVO: Método para generar ruta automática de imagen
+    public String generarRutaImagenAuto() {
+        String equipoNormalizado = nombreEquipo.toLowerCase()
+            .replace(" ", "_")
+            .replace("á", "a").replace("é", "e").replace("í", "i")
+            .replace("ó", "o").replace("ú", "u");
+        
+        String numeroNormalizado = tipo.equals("Director Técnico") ? "dt" : numero;
+        
+        return "imagenes/jugadores/" + equipoNormalizado + "_" + numeroNormalizado + ".jpg";
+    }
+    
+    // NUEVO: Método para generar ruta automática de escudo
+    public String generarRutaEscudoAuto() {
+        String equipoNormalizado = nombreEquipo.toLowerCase()
+            .replace(" ", "_")
+            .replace("á", "a").replace("é", "e").replace("í", "i")
+            .replace("ó", "o").replace("ú", "u");
+        
+        return "imagenes/escudos/" + equipoNormalizado + ".png";
+    }
+    
     public String toFileString() {
         return nombreEquipo + "|" + nombreJugador + "|" + posicion + "|" + 
                numero + "|" + nacionalidad + "|" + edad + "|" + division + "|" +

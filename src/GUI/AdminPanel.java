@@ -2,12 +2,16 @@ package GUI;
 
 import CONTROL.*;
 import java.awt.*;
+import java.io.File;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class AdminPanel extends JPanel {
     private final GUI ventana;
     private GestorAlbum gestor;
     private JTabbedPane pestanas;
+    private String rutaImagenSeleccionada = "";
+    private String rutaEscudoSeleccionado = "";
     
     public AdminPanel(GUI ventana) {
         this.ventana = ventana;
@@ -45,6 +49,13 @@ public class AdminPanel extends JPanel {
         JTextField txtEdad = new JTextField(20);
         JTextField txtDivision = new JTextField(20);
         JComboBox<String> cbTipo = new JComboBox<>(new String[]{"Jugador", "Director Técnico"});
+        
+        // NUEVOS: Campos para imágenes
+        JLabel lblImagenSeleccionada = new JLabel("No seleccionada");
+        JLabel lblEscudoSeleccionado = new JLabel("No seleccionado");
+        JButton btnSeleccionarImagen = new JButton("Seleccionar Imagen Jugador");
+        JButton btnSeleccionarEscudo = new JButton("Seleccionar Escudo");
+        JCheckBox chkRutaAuto = new JCheckBox("Generar rutas automáticas", true);
         
         JButton btnGuardar = new JButton("Guardar Jugador");
         JButton btnLimpiar = new JButton("Limpiar Campos");
@@ -97,6 +108,30 @@ public class AdminPanel extends JPanel {
         gbc.gridx = 1;
         panel.add(txtDivision, gbc);
         
+        // SECCIÓN DE IMÁGENES
+        fila++;
+        gbc.gridx = 0; gbc.gridy = fila;
+        gbc.gridwidth = 2;
+        panel.add(new JSeparator(), gbc);
+        
+        fila++;
+        gbc.gridx = 0; gbc.gridy = fila;
+        gbc.gridwidth = 2;
+        panel.add(chkRutaAuto, gbc);
+        
+        fila++;
+        gbc.gridwidth = 1;
+        gbc.gridx = 0; gbc.gridy = fila;
+        panel.add(btnSeleccionarImagen, gbc);
+        gbc.gridx = 1;
+        panel.add(lblImagenSeleccionada, gbc);
+        
+        fila++;
+        gbc.gridx = 0; gbc.gridy = fila;
+        panel.add(btnSeleccionarEscudo, gbc);
+        gbc.gridx = 1;
+        panel.add(lblEscudoSeleccionado, gbc);
+        
         fila++;
         gbc.gridx = 0; gbc.gridy = fila;
         gbc.gridwidth = 2;
@@ -105,6 +140,55 @@ public class AdminPanel extends JPanel {
         panelBotones.add(btnLimpiar);
         panel.add(panelBotones, gbc);
         
+        // Habilitar/deshabilitar selectores según checkbox
+        chkRutaAuto.addActionListener(e -> {
+            boolean auto = chkRutaAuto.isSelected();
+            btnSeleccionarImagen.setEnabled(!auto);
+            btnSeleccionarEscudo.setEnabled(!auto);
+            if (auto) {
+                lblImagenSeleccionada.setText("Automática");
+                lblEscudoSeleccionado.setText("Automático");
+                rutaImagenSeleccionada = "";
+                rutaEscudoSeleccionado = "";
+            } else {
+                lblImagenSeleccionada.setText("No seleccionada");
+                lblEscudoSeleccionado.setText("No seleccionado");
+            }
+        });
+        
+        // Selector de imagen de jugador
+        btnSeleccionarImagen.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File("imagenes/jugadores"));
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Imágenes (*.jpg, *.jpeg, *.png)", "jpg", "jpeg", "png");
+            fileChooser.setFileFilter(filter);
+            
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                rutaImagenSeleccionada = selectedFile.getPath();
+                lblImagenSeleccionada.setText(selectedFile.getName());
+            }
+        });
+        
+        // Selector de escudo
+        btnSeleccionarEscudo.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File("imagenes/escudos"));
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Imágenes (*.jpg, *.jpeg, *.png)", "jpg", "jpeg", "png");
+            fileChooser.setFileFilter(filter);
+            
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                rutaEscudoSeleccionado = selectedFile.getPath();
+                lblEscudoSeleccionado.setText(selectedFile.getName());
+            }
+        });
+        
+        // Acción Guardar
         btnGuardar.addActionListener(e -> {
             try {
                 String tipo = (String) cbTipo.getSelectedItem();
@@ -117,8 +201,15 @@ public class AdminPanel extends JPanel {
                 j.setEdad(Integer.parseInt(txtEdad.getText().trim()));
                 j.setDivision(txtDivision.getText().trim());
                 j.setTipo(tipo);
-                j.setRutaImagen("");
-                j.setRutaEscudo("");
+                
+                // Asignar rutas de imágenes
+                if (chkRutaAuto.isSelected()) {
+                    j.setRutaImagen(j.generarRutaImagenAuto());
+                    j.setRutaEscudo(j.generarRutaEscudoAuto());
+                } else {
+                    j.setRutaImagen(rutaImagenSeleccionada.isEmpty() ? "" : rutaImagenSeleccionada);
+                    j.setRutaEscudo(rutaEscudoSeleccionado.isEmpty() ? "" : rutaEscudoSeleccionado);
+                }
                 
                 if (!GestorAlbum.validarCampos(j)) {
                     JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
@@ -128,6 +219,10 @@ public class AdminPanel extends JPanel {
                 if (gestor.agregarJugador(j)) {
                     JOptionPane.showMessageDialog(this, "Jugador agregado exitosamente");
                     limpiarCampos(txtEquipo, txtNombre, txtPosicion, txtNumero, txtNacionalidad, txtEdad, txtDivision);
+                    lblImagenSeleccionada.setText(chkRutaAuto.isSelected() ? "Automática" : "No seleccionada");
+                    lblEscudoSeleccionado.setText(chkRutaAuto.isSelected() ? "Automático" : "No seleccionado");
+                    rutaImagenSeleccionada = "";
+                    rutaEscudoSeleccionado = "";
                 } else {
                     JOptionPane.showMessageDialog(this, "Ya existe un jugador con ese equipo y número", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -136,8 +231,13 @@ public class AdminPanel extends JPanel {
             }
         });
         
+        // Acción Limpiar
         btnLimpiar.addActionListener(e -> {
             limpiarCampos(txtEquipo, txtNombre, txtPosicion, txtNumero, txtNacionalidad, txtEdad, txtDivision);
+            lblImagenSeleccionada.setText(chkRutaAuto.isSelected() ? "Automática" : "No seleccionada");
+            lblEscudoSeleccionado.setText(chkRutaAuto.isSelected() ? "Automático" : "No seleccionado");
+            rutaImagenSeleccionada = "";
+            rutaEscudoSeleccionado = "";
         });
         
         return panel;
@@ -299,8 +399,8 @@ public class AdminPanel extends JPanel {
                 j.setNacionalidad(txtNacionalidad.getText().trim());
                 j.setEdad(Integer.parseInt(txtEdad.getText().trim()));
                 j.setDivision(txtDivision.getText().trim());
-                j.setRutaImagen("");
-                j.setRutaEscudo("");
+                j.setRutaImagen(j.generarRutaImagenAuto());
+                j.setRutaEscudo(j.generarRutaEscudoAuto());
                 j.setTipo("Jugador");
                 
                 if (gestor.modificarJugador(txtEquipoBuscar.getText().trim(), txtNumeroBuscar.getText().trim(), j)) {
@@ -374,7 +474,7 @@ public class AdminPanel extends JPanel {
                         JOptionPane.showMessageDialog(this, "Jugador eliminado exitosamente");
                         areaResultado.setText("");
                         txtEquipo.setText("");
-                        txtNumero.setText("");
+                        txtNumero.setText ("");
                         btnEliminar.setEnabled(false);
                         jugadorActual[0] = null;
                     }

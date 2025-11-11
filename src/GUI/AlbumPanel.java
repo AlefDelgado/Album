@@ -2,6 +2,8 @@ package GUI;
 
 import CONTROL.*;
 import java.awt.*;
+import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -87,23 +89,21 @@ public class AlbumPanel extends JPanel {
             BorderFactory.createLineBorder(new Color(200, 200, 200), 2),
             BorderFactory.createEmptyBorder(10, 10, 10, 10)
         ));
-        estampa.setPreferredSize(new Dimension(220, 320));
-        estampa.setMaximumSize(new Dimension(220, 320));
+        estampa.setPreferredSize(new Dimension(220, 380));
+        estampa.setMaximumSize(new Dimension(220, 380));
         
         JLabel lblEquipo = new JLabel(j.getNombreEquipo(), SwingConstants.CENTER);
         lblEquipo.setFont(new Font("Arial", Font.BOLD, 12));
         lblEquipo.setForeground(new Color(0, 102, 204));
         lblEquipo.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        JPanel panelImagen = new JPanel();
-        panelImagen.setPreferredSize(new Dimension(120, 120));
-        panelImagen.setMaximumSize(new Dimension(120, 120));
-        panelImagen.setBackground(new Color(230, 230, 230));
-        panelImagen.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        JLabel lblSinImagen = new JLabel("Sin imagen", SwingConstants.CENTER);
-        lblSinImagen.setFont(new Font("Arial", Font.ITALIC, 10));
-        panelImagen.add(lblSinImagen);
-        panelImagen.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // CARGAR IMAGEN DEL JUGADOR
+        JLabel lblImagen = cargarImagen(j.getRutaImagen(), 140, 140);
+        lblImagen.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        // CARGAR ESCUDO (pequeño)
+        JLabel lblEscudo = cargarImagen(j.getRutaEscudo(), 30, 30);
+        lblEscudo.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         JLabel lblNombre = new JLabel(j.getNombreJugador(), SwingConstants.CENTER);
         lblNombre.setFont(new Font("Arial", Font.BOLD, 14));
@@ -127,8 +127,10 @@ public class AlbumPanel extends JPanel {
         lblEdad.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         estampa.add(lblEquipo);
+        estampa.add(Box.createRigidArea(new Dimension(0, 3)));
+        estampa.add(lblEscudo);
         estampa.add(Box.createRigidArea(new Dimension(0, 5)));
-        estampa.add(panelImagen);
+        estampa.add(lblImagen);
         estampa.add(Box.createRigidArea(new Dimension(0, 8)));
         estampa.add(lblNombre);
         estampa.add(lblNumero);
@@ -158,6 +160,42 @@ public class AlbumPanel extends JPanel {
         });
         
         return estampa;
+    }
+    
+    // MÉTODO PARA CARGAR IMÁGENES
+    private JLabel cargarImagen(String ruta, int ancho, int alto) {
+        JLabel label = new JLabel();
+        label.setPreferredSize(new Dimension(ancho, alto));
+        label.setMaximumSize(new Dimension(ancho, alto));
+        label.setMinimumSize(new Dimension(ancho, alto));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        
+        try {
+            File archivoImagen = new File(ruta);
+            
+            if (archivoImagen.exists()) {
+                Image img = ImageIO.read(archivoImagen);
+                Image imgEscalada = img.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+                label.setIcon(new ImageIcon(imgEscalada));
+            } else {
+                // Si no existe la imagen, mostrar placeholder
+                label.setOpaque(true);
+                label.setBackground(new Color(230, 230, 230));
+                label.setText("Sin imagen");
+                label.setFont(new Font("Arial", Font.ITALIC, 10));
+                label.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            }
+        } catch (Exception e) {
+            // Error al cargar, mostrar placeholder
+            label.setOpaque(true);
+            label.setBackground(new Color(230, 230, 230));
+            label.setText("Error");
+            label.setFont(new Font("Arial", Font.ITALIC, 10));
+            label.setBorder(BorderFactory.createLineBorder(Color.RED));
+        }
+        
+        return label;
     }
     
     private void mostrarDetalleJugador(Jugador j) {
