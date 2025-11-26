@@ -1,9 +1,9 @@
 # 🏆 Álbum de Fútbol 
 
-![GitHub repo size](https://img.shields.io/github/repo-size/tu-usuario/album-futbol)
-![GitHub last commit](https://img.shields.io/github/last-commit/tu-usuario/album-futbol)
-![GitHub stars](https://img.shields.io/github/stars/tu-usuario/album-futbol?style=social)
-![GitHub forks](https://img.shields.io/github/forks/tu-usuario/album-futbol?style=social)
+![GitHub repo size](https://img.shields.io/github/repo-size/AlefDelgado/Album)
+![GitHub last commit](https://img.shields.io/github/last-commit/AlefDelgado/Album)
+![GitHub stars](https://img.shields.io/github/stars/AlefDelgado/Album?style=social)
+![GitHub forks](https://img.shields.io/github/forks/AlefDelgado/Album?style=social)
 
 > Un proyecto interactivo inspirado en los clásicos álbumes Panini ⚽, donde puedes coleccionar, intercambiar y visualizar tus estampas de jugadores, equipos y torneos.
 
@@ -16,10 +16,15 @@ Ejemplo:
 ![preview](assets/preview.png)
 
 ---
+## 📚 ¿Como usar?
+
+paso 1.- Clona el proyecto en tu equipo a traves de la herramienta "git clone <link>"
+paso 2.- Abre el proyecto en Java NetBeans
+paso 3.- inicia sesión como administrado (admin/admin) o como usuario (fan/fan)
 
 ## 🧠 Descripción
 
-Este proyecto es un **álbum digital de fútbol** hecho con pasión por el deporte y la programación.  
+Este proyecto es un **álbum digital de fútbol**.  
 Permite a los usuarios:
 
 - 🧩 Coleccionar estampas de jugadores y equipos.  
@@ -39,6 +44,5 @@ Ideal para practicar **desarrollo web**, **bases de datos** y **control de estad
 | 🎨 Diseño | Canva |
 | 🧩 Control de versiones | Git y GitHub |
 
-> Puedes ajustar esta tabla según tus herramientas reales.
 
 
