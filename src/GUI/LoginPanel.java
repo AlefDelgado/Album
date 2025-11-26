@@ -117,6 +117,7 @@ public class LoginPanel extends JPanel {
             } else {
                 mostrarError("Credenciales incorrectas. Intente nuevamente.");
                 txtPassword.setText("");
+                txtUsuario.setText("");
             }
         });
         

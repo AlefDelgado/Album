@@ -1,4 +1,4 @@
-package GUI;
+ package GUI;
 
 import CONTROL.*;
 import java.awt.*;

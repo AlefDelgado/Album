@@ -141,7 +141,8 @@ public class GUI extends JFrame {
         return footer;
     }
     
-    public void mostrar(String nombrePanel) {
+    public void mostrar(String nombrePanel) 
+    {
         cards.show(contenedor, nombrePanel);
         
         // Cambiar título según la vista
@@ -159,7 +160,8 @@ public class GUI extends JFrame {
     }
     
     // Método auxiliar para diálogos personalizados
-    public void mostrarDialogoPersonalizado(String titulo, String mensaje, int tipo) {
+    public void mostrarDialogoPersonalizado(String titulo, String mensaje, int tipo) 
+    {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
     }
     

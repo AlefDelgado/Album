@@ -4,23 +4,24 @@ import ARCHIVOS.ManejadorArchivos;
 import java.util.ArrayList;
 
 public class GestorAlbum {
+
     private ArrayList<Jugador> jugadores;
     private ManejadorArchivos manejadorArchivos;
-    
+
     public GestorAlbum() {
         jugadores = new ArrayList<>();
         manejadorArchivos = new ManejadorArchivos();
         cargarDatos();
     }
-    
+
     private void cargarDatos() {
         jugadores = manejadorArchivos.cargarJugadores();
     }
-    
+
     public void guardarDatos() {
         manejadorArchivos.guardarJugadores(jugadores);
     }
-    
+
     public boolean agregarJugador(Jugador jugador) {
         if (buscarJugador(jugador.getNombreEquipo(), jugador.getNumero()) != null) {
             return false;
@@ -29,17 +30,17 @@ public class GestorAlbum {
         guardarDatos();
         return true;
     }
-    
+
     public Jugador buscarJugador(String nombreEquipo, String numero) {
         for (Jugador j : jugadores) {
-            if (j.getNombreEquipo().equalsIgnoreCase(nombreEquipo) && 
-                j.getNumero().equals(numero)) {
+            if (j.getNombreEquipo().equalsIgnoreCase(nombreEquipo)
+                    && j.getNumero().equals(numero)) {
                 return j;
             }
         }
         return null;
     }
-    
+
     public boolean modificarJugador(String equipoBuscar, String numeroBuscar, Jugador nuevosDatos) {
         Jugador jugador = buscarJugador(equipoBuscar, numeroBuscar);
         if (jugador != null) {
@@ -58,7 +59,7 @@ public class GestorAlbum {
         }
         return false;
     }
-    
+
     public boolean eliminarJugador(String nombreEquipo, String numero) {
         Jugador jugador = buscarJugador(nombreEquipo, numero);
         if (jugador != null) {
@@ -68,11 +69,11 @@ public class GestorAlbum {
         }
         return false;
     }
-    
+
     public ArrayList<Jugador> obtenerTodosJugadores() {
         return new ArrayList<>(jugadores);
     }
-    
+
     public ArrayList<Jugador> obtenerJugadoresPorEquipo(String nombreEquipo) {
         ArrayList<Jugador> resultado = new ArrayList<>();
         for (Jugador j : jugadores) {
@@ -82,7 +83,7 @@ public class GestorAlbum {
         }
         return resultado;
     }
-    
+
     public ArrayList<String> obtenerEquipos() {
         ArrayList<String> equipos = new ArrayList<>();
         for (Jugador j : jugadores) {
@@ -92,13 +93,13 @@ public class GestorAlbum {
         }
         return equipos;
     }
-    
+
     public static boolean validarCampos(Jugador jugador) {
-        return jugador.getNombreEquipo() != null && !jugador.getNombreEquipo().trim().isEmpty() &&
-               jugador.getNombreJugador() != null && !jugador.getNombreJugador().trim().isEmpty() &&
-               jugador.getPosicion() != null && !jugador.getPosicion().trim().isEmpty() &&
-               jugador.getNacionalidad() != null && !jugador.getNacionalidad().trim().isEmpty() &&
-               jugador.getEdad() > 0 &&
-               jugador.getDivision() != null && !jugador.getDivision().trim().isEmpty();
+        return jugador.getNombreEquipo() != null && !jugador.getNombreEquipo().trim().isEmpty()
+                && jugador.getNombreJugador() != null && !jugador.getNombreJugador().trim().isEmpty()
+                && jugador.getPosicion() != null && !jugador.getPosicion().trim().isEmpty()
+                && jugador.getNacionalidad() != null && !jugador.getNacionalidad().trim().isEmpty()
+                && jugador.getEdad() > 0
+                && jugador.getDivision() != null && !jugador.getDivision().trim().isEmpty();
     }
 }

@@ -9,6 +9,7 @@ public class Main {
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.setSize(1000, 600);
         ventana.setLocationRelativeTo(null);
+        ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ventana.setVisible(true);
     }
 }

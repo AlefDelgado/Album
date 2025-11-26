@@ -6,8 +6,8 @@ Barcelona|Alejandro Balde|Lateral izquierdo|5|España|21|Primera División|image
 Barcelona|Frenkie de Jong|Mediocampista|6|Países Bajos|28|Primera División|imagenes/jugadores/barcelona_6.jpg|imagenes/escudos/barcelona.png|Jugador
 Barcelona|Pedri González|Mediocampista ofensivo|7|España|22|Primera División|imagenes/jugadores/barcelona_7.jpg|imagenes/escudos/barcelona.png|Jugador
 Barcelona|Raphinha|Extremo derecho|8|Brasil|28|Primera División|imagenes/jugadores/barcelona_8.jpg|imagenes/escudos/barcelona.png|Jugador
-Barcelona|Lamine Yamal|Extremo derecho|9|España|17|Primera División|imagenes/jugadores/barcelona_9.jpg|imagenes/escudos/barcelona.png|Jugador
-Barcelona|Robert Lewandowski|Delantero centro|10|Polonia|37|Primera División|imagenes/jugadores/barcelona_10.jpg|imagenes/escudos/barcelona.png|Jugador
+Barcelona|Lamine Yamal|Extremo derecho|10|Española|17|Primera División|imagenes/jugadores/barcelona_10.jpg|imagenes/escudos/barcelona.png|Jugador
+Barcelona|Robert Lewandowski|Delantero centro|20|Polonia|37|Primera División|imagenes/jugadores/barcelona_20.jpg|imagenes/escudos/barcelona.png|Jugador
 Barcelona|Marcus Rashford|Extremo izquierdo|11|Inglaterra|28|Primera División|imagenes/jugadores/barcelona_11.jpg|imagenes/escudos/barcelona.png|Jugador
 Barcelona|Hansi Flick|Director Técnico|DT|Alemania|59|Primera División|imagenes/jugadores/barcelona_dt.jpg|imagenes/escudos/barcelona.png|Director Técnico
 Manchester City|Gianluigi Donnarumma|Portero|1|Italia|26|Premier League|imagenes/jugadores/manchester_city_1.jpg|imagenes/escudos/manchester_city.png|Jugador
