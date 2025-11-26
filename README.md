@@ -11,9 +11,7 @@
 
 ## 📸 Vista previa
 
-*(Aquí puedes agregar una imagen o GIF de tu proyecto)*  
-Ejemplo:
-![preview]<img width="1440" height="875" alt="Screenshot 2025-11-25 at 7 25 38 p m" src="https://github.com/user-attachments/assets/6d50eae1-f489-4301-9840-c76ba18f8cc1" />
+<img width="1440" height="875" alt="Screenshot 2025-11-25 at 7 25 38 p m" src="https://github.com/user-attachments/assets/6d50eae1-f489-4301-9840-c76ba18f8cc1" />
 
 
 ---
