@@ -28,10 +28,10 @@ Permite a los usuarios:
 
 - 🧩 Coleccionar estampas de jugadores y equipos.  
 - 💾 Guardar el progreso de su álbum.  
-- 🔄 Intercambiar o desbloquear nuevas estampas.  
-- 🏅 Completar torneos o temporadas.  
+- 🔄 Editar estampas.  
+- 🏅 Administrar el album.  
 
-Ideal para practicar **desarrollo web**, **bases de datos** y **control de estado**, o simplemente para divertirte construyendo tu propio álbum Panini digital.
+Ideal para practicar **Desarrollo Java**, **Manejo de Archivos** y **CRUD**, o simplemente para divertirte construyendo tu propio álbum Panini digital.
 
 ---
 
