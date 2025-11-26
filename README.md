@@ -18,9 +18,9 @@ Ejemplo:
 ---
 ## 📚 ¿Como usar?
 
-paso 1.- Clona el proyecto en tu equipo a traves de la herramienta "git clone <link>".
-paso 2.- Abre el proyecto en Java NetBeans.
-paso 3.- inicia sesión como administrado (admin/admin) o como usuario (fan/fan).
+paso 1.- Clona el proyecto en tu equipo a traves de la herramienta "git clone <link>".  
+paso 2.- Abre el proyecto en Java NetBeans.  
+paso 3.- inicia sesión como administrado (admin/admin) o como usuario (fan/fan).  
 
 ## 🧠 Descripción
 
